@@ -1,0 +1,13 @@
+package: github.com/Hepri/charts
+import:
+- package: github.com/astaxie/beego
+  version: ~1.9.2
+  subpackages:
+  - orm
+  - session/postgresql
+- package: github.com/lib/pq
+testImport:
+- package: github.com/smartystreets/goconvey
+  version: ~1.6.3
+  subpackages:
+  - convey

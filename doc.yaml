@@ -1,0 +1,175 @@
+swagger: '2.0'
+info:
+  version: "1.0"
+  title: Charts
+  description: Charts
+paths:
+  /api/login:
+    post:
+      summary: Login user
+      parameters:
+        - in: body
+          name: cred
+          description: credentials
+          schema:
+            $ref: '#/definitions/LoginRequest'
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/EmptyResponse"  
+  
+  /api/patients:
+    get:
+      summary: Get user patients
+      responses:
+        "200":
+          description: List of patients
+          schema:
+            $ref: "#/definitions/PatientsList"
+        "403":
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+    post:
+      summary: Create patient
+      responses:
+        "200":
+          description: Created patients
+          schema:
+            $ref: "#/definitions/PatientInfoRequest"
+        "403":
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
+            
+  /api/patients/{id}:
+    get:
+      summary: Get patient info
+      parameters: 
+        - in: path
+          name: id
+          type: integer
+          description: patient_id
+          required: true
+      responses:
+        "200":
+          description: Patient info
+          schema:
+            $ref: "#/definitions/Patient"
+        "403":
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/ErrorResponse" 
+    
+    delete:
+      summary: Delete patient
+      parameters: 
+        - in: path
+          name: id
+          type: integer
+          description: patient_id
+          required: true
+      responses:
+        "200":
+          description: Patient info
+          schema:
+            $ref: "#/definitions/Patient"
+        "403":
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    
+    put:
+      summary: Update patient
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          description: patient_id
+          required: true
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/PatientInfoRequest'
+      responses:
+        "200":
+          description: Updated patient info
+          schema:
+            $ref: "#/definitions/Patient"
+        "403":
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        
+    
+            
+definitions:
+  LoginRequest:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+        
+  PatientInfoRequest:
+    type: object
+    required: 
+      - last_name
+      - first_name
+      - date_of_birth
+    properties:
+      last_name:
+        type: string
+      first_name:
+        type: string
+      middle_name:
+        type: string
+      date_of_birth:
+        type: string
+        example: "1963-09-01T00:00:00Z"
+      case_name:
+        type: string
+        
+  EmptyResponse:
+    type: object
+    
+  ErrorResponse:
+    type: object
+    properties:
+      error:
+        type: string
+    
+  PatientsList:
+    type: object
+    properties:
+      patients:
+        type: array
+        items:
+          $ref: "#/definitions/Patient"
+          
+  Patient:
+    type: object
+    required: 
+      - id
+      - last_name
+      - first_name
+      - date_of_birth
+    properties:
+      id:
+        type: integer
+      last_name:
+        type: string
+      first_name:
+        type: string
+      middle_name:
+        type: string
+      date_of_birth:
+        type: string
+        example: "1963-09-01T00:00:00Z"
+      case_name:
+        type: string
+        
+        
